@@ -3,7 +3,7 @@ import React from "react";
 function UserProfile() {
     return (
         <div>
-            <h2>User Profile</h2>
+            <h1>User Profile</h1>
         </div>
     );
 }
