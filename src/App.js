@@ -9,14 +9,14 @@ import UserProfile from './pages/UserProfile';
 function App() {
   return (
     <>
-    <Header />
-    <Router>
-      <Routes>
-        <Route path="/user/:id" element={<UserProfile />} />
-        <Route path="/create" element={<CreateUser />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </Router>
+      <Header />
+      <Router>
+        <Routes>
+          <Route path="/user/:id" element={<UserProfile />} />
+          <Route path="/create" element={<CreateUser />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </Router>
     </>
   );
 }
