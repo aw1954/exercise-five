@@ -33,8 +33,8 @@ function App() {
   // User loads page, check their status
   // Set state accordingly
   useEffect(() => {
-    const auth = getAuth();
     if (appInitialized) {
+      const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in
@@ -45,9 +45,9 @@ function App() {
           setUserInformation({});
           setLoggedIn(false);
         }
+        // Whenever state changes setLoading to false
+        setLoading(false);
       });
-      // Whenever state changes setLoading to false
-      setLoading(false);
     }
   }, [appInitialized]);
 
