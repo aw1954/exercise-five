@@ -12,8 +12,6 @@ import FirebaseConfig from "./components/FirebaseConfig";
 
 
 function App() {
-  //React router hook for navigating to other pages...
-  const navigate = useNavigate;
   // Track if user is logged in
   const [loggedIn, setLoggedIn] = useState(false);
   // Check to see if there is any loading...
