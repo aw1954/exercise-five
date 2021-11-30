@@ -1,5 +1,5 @@
 // Your web app's Firebase configuration
-export default {
+const FirebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "exercise-five-e19ac.firebaseapp.com",
     projectId: "exercise-five-e19ac",
@@ -8,3 +8,4 @@ export default {
     appId: process.env.REACT_APP_APP_ID
   };
   
+export default FirebaseConfig;

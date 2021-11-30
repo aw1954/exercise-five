@@ -27,7 +27,9 @@ function CreateUser({ setLoggedIn, setUserInformation }) {
                   const errorMessage = error.message;
                   console.warn({ error, errorCode, errorMessage });
               });
-    }, []);
+    }, 
+        [setLoggedIn, setUserInformation]
+    );
 
     return (
         <div>
