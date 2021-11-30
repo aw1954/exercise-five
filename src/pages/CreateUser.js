@@ -30,7 +30,7 @@ function CreateUser({ setErrors, setLoggedIn, setUserInformation }) {
                   setErrors(errorMessage);
               });
     }, 
-        [setLoggedIn, setUserInformation]
+        [setErrors, setLoggedIn, setUserInformation]
     );
 
     return (
