@@ -4,6 +4,12 @@
   max-width: 120px;
 }
 
+.PageWrapper {
+  padding: 0 25px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
 .Header {
   align-items: center;
   display: flex;

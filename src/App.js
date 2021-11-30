@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { Navigate, BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
 import './App.css';
 //Page imports
 import CreateUser from './pages/CreateUser';
@@ -10,6 +9,7 @@ import Header from './components/Header';
 import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
 import FirebaseConfig from "./components/FirebaseConfig";
+
 
 function App() {
   //React router hook for navigating to other pages...
@@ -29,56 +29,67 @@ function App() {
     setAppInitialized(true);
   }, []);
 
-    // Check to see if User is logged in
-    // User loads page, check their status
-    // Set state accordingly
-    useEffect(() => {
-      const auth = getAuth();
-      if (appInitialized) {
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            // User is signed in
-            setUserInformation(user);
-            setLoggedIn(false);
-          }
-        });
-        setLoading(false);
-      }
-    }, [appInitialized]);
-
-    function logout() {
-      const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        setUserInformation({});
-        setLoggedIn(false);
-      })
-      .catch((error) => {
-        console.warn(error);
+  // Check to see if User is logged in
+  // User loads page, check their status
+  // Set state accordingly
+  useEffect(() => {
+    const auth = getAuth();
+    if (appInitialized) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in
+          setUserInformation(user);
+          setLoggedIn(false);
+        } else {
+          // User is signed out
+          setUserInformation({});
+          setLoggedIn(false);
+        }
       });
+      // Whenever state changes setLoading to false
+      setLoading(false);
     }
-    
-    if (loading) return null;
+  }, [appInitialized]);
+
+  function logout() {
+    const auth = getAuth();
+  signOut(auth)
+    .then(() => {
+      setUserInformation({});
+      setLoggedIn(false);
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+  }
+  
+  if (loading || !appInitialized) return null;
 
   return (
     <>
-      <Header logout = {logout} loggedIn={loggedIn} />
+      <Header logout={logout} loggedIn={loggedIn} />
       <Router>
         <Routes>
           <Route 
             path="/user/:id" 
-            element={loggedIn ? <UserProfile /> : <>No</>} 
+            element={
+              loggedIn ? (
+                <UserProfile userInformation={userInformation} /> 
+              ) : (
+                <Navigate to="/" />
+                )
+              }
           />
           <Route 
             path="/create" 
             element={
-              loggedIn ? (
+              ! loggedIn ? (
               <CreateUser 
                 setLoggedIn={setLoggedIn}
                 setUserInformation={setUserInformation}
               />
               ) : (
-                <></>
+                <Navigate to={`/user/${userInformation.uid}`} />
               )
             }
           />
