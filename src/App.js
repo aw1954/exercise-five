@@ -21,6 +21,8 @@ function App() {
   // Store user information in state
   const [userInformation, setUserInformation] = useState({});
   const [appInitialized, setAppInitialized] = useState(false);
+  // Error
+  const [errors, setErrors] = useState();
  
   // Ensure app is initialized when it is ready to be
   useEffect(() => {
@@ -53,14 +55,16 @@ function App() {
 
   function logout() {
     const auth = getAuth();
-  signOut(auth)
-    .then(() => {
-      setUserInformation({});
-      setLoggedIn(false);
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+    logout(auth)
+      .then(() => {
+        setUserInformation({});
+        setLoggedIn(false);
+        setErrors();
+      })
+      .catch((error) => {
+        console.warn(error);
+        setErrors(error);
+      });
   }
   
   if (loading || !appInitialized) return null;
@@ -68,6 +72,7 @@ function App() {
   return (
     <>
       <Header logout={logout} loggedIn={loggedIn} />
+      {errors && <p className="Error PageWrapper">{errors} </p>}
       <Router>
         <Routes>
           <Route 
@@ -83,10 +88,11 @@ function App() {
           <Route 
             path="/create" 
             element={
-              ! loggedIn ? (
+              !loggedIn ? (
               <CreateUser 
                 setLoggedIn={setLoggedIn}
                 setUserInformation={setUserInformation}
+                setErrors={setErrors}
               />
               ) : (
                 <Navigate to={`/user/${userInformation.uid}`} />
@@ -96,10 +102,14 @@ function App() {
           <Route 
             path="/" 
             element={
+              !loggedIn ? (
               <Login
                 setLoggedIn={setLoggedIn}
                 setUserInformation={setUserInformation}
               />
+              ) : (
+                <Navigate to={`/user/${userInformation.uid}`} />
+              )
             }
             />
         </Routes>

@@ -2,7 +2,7 @@ import React, {useCallback} from "react";
 import { signInWithEmailAndPassword, getAuth } from "@firebase/auth";
 import LoginForm from "../components/LoginForm";
 
-function Login({setLoggedIn, setUserInformation}) {
+function Login({ setErrors, setLoggedIn, setUserInformation }) {
 
     const loginUser = useCallback((e) => {
         e.preventDefault();
